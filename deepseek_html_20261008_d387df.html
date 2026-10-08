@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📚 Задания и домашние задания — 7 класс</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-gradient: linear-gradient(145deg, #f5f2fc 0%, #eef2fb 40%, #f0eefa 100%);
+    --card-bg: #ffffff;
+    --violet: #8a6ad8;
+    --violet-dark: #6a4ab8;
+    --violet-light: #b8a8e8;
+    --violet-pale: #f0ebfa;
+    --blue: #5a8ad8;
+    --blue-dark: #3a5aa8;
+    --blue-light: #a8c0e8;
+    --blue-pale: #ebf1fa;
+    --lilac: #c8a8e8;
+    --lilac-pale: #f5eefa;
+    --ink: #2a1a4a;
+    --ink-soft: #5a4a7a;
+    --green: #5aab7a;
+    --green-light: #d8f0e0;
+    --red: #d86a8a;
+    --red-light: #f8dde5;
+    --shadow: 0 8px 28px rgba(106, 74, 184, 0.10);
+  }
+
+  body {
+    font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+    background: var(--bg-gradient);
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+    color: var(--ink);
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Декоративные эмодзи на фоне */
+  body::before {
+    content: "🔮💫📐📏🌌";
+    position: fixed;
+    top: 6%;
+    right: 3%;
+    font-size: 60px;
+    opacity: 0.05;
+    pointer-events: none;
+    letter-spacing: 20px;
+    animation: floatDeco 9s ease-in-out infinite;
+  }
+  body::after {
+    content: "📚✨🔷💜🪐";
+    position: fixed;
+    bottom: 5%;
+    left: 2%;
+    font-size: 70px;
+    opacity: 0.05;
+    pointer-events: none;
+    letter-spacing: 25px;
+    animation: floatDeco 11s ease-in-out infinite reverse;
+  }
+
+  @keyframes floatDeco {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ====== ШАПКА ====== */
+  .main-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 28px 20px;
+    position: relative;
+  }
+
+  .main-header .crown {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 10px;
+    animation: crownGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes crownGlow {
+    0%, 100% { filter: drop-shadow(0 0 10px rgba(138, 106, 216, 0.6)); transform: scale(1); }
+    50% { filter: drop-shadow(0 0 25px rgba(138, 106, 216, 1)); transform: scale(1.08); }
+  }
+
+  .main-header h1 {
+    font-size: 42px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8a6ad8, #5a8ad8, #c8a8e8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    line-height: 1.15;
+  }
+
+  .main-header .subtitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--violet-dark);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .main-header p {
+    font-size: 17px;
+    color: var(--ink-soft);
+    font-style: italic;
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  /* ====== КАТЕГОРИИ ====== */
+  .category {
+    margin-bottom: 44px;
+    animation: fadeInUp 0.5s ease;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .category-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 20px;
+    padding: 0 4px 12px;
+    border-bottom: 3px dashed var(--violet-light);
+    flex-wrap: wrap;
+  }
+
+  .category-title .emoji {
+    font-size: 36px;
+    filter: drop-shadow(0 3px 6px rgba(106, 74, 184, 0.2));
+  }
+
+  .category-title .name {
+    background: linear-gradient(135deg, #6a4ab8, #3a5aa8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .category-title .count {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--violet-dark);
+    background: var(--violet-pale);
+    padding: 5px 16px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+    border: 1px solid rgba(138, 106, 216, 0.2);
+  }
+
+  /* ====== СЕТКА КАРТОЧЕК ====== */
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .game-card {
+    display: block;
+    background: var(--card-bg);
+    border: 2px solid rgba(138, 106, 216, 0.15);
+    border-radius: 22px;
+    padding: 22px 24px 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.35s cubic-bezier(0.34, 1.2, 0.5, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(106, 74, 184, 0.08);
+  }
+
+  .game-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: linear-gradient(90deg, #8a6ad8, #5a8ad8, #c8a8e8);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  .game-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--violet-light);
+    box-shadow: 0 16px 40px rgba(106, 74, 184, 0.22);
+  }
+  .game-card:hover::before { transform: scaleX(1); }
+  .game-card:hover .game-emoji { transform: scale(1.15) rotate(-8deg); }
+
+  .game-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+
+  .game-emoji {
+    font-size: 44px;
+    line-height: 1;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+    filter: drop-shadow(0 3px 6px rgba(106, 74, 184, 0.18));
+  }
+
+  .game-meta { flex: 1; min-width: 0; }
+
+  .game-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 5px;
+  }
+
+  .game-class {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--violet-dark);
+    background: var(--violet-pale);
+    padding: 3px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    letter-spacing: 0.3px;
+  }
+
+  .game-desc {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-top: 8px;
+  }
+
+  .game-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 11px;
+    border-radius: 12px;
+    letter-spacing: 0.3px;
+  }
+  .tag-violet { background: #ebe0f7; color: #6a3d9a; }
+  .tag-blue   { background: #e3f0fa; color: #2a5a8a; }
+  .tag-lilac  { background: #f0e8fa; color: #7a5a9a; }
+  .tag-pink   { background: #fce4ec; color: #a03a6a; }
+  .tag-green  { background: #e0f0e4; color: #2a6a3a; }
+  .tag-gold   { background: #fff4d0; color: #8a6a10; }
+  .tag-rose   { background: #ffe4ec; color: #c2487a; }
+  .tag-dark   { background: #2a1a4a; color: #c8a8e8; }
+
+  /* ====== ПУСТОЕ СОСТОЯНИЕ ====== */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .empty-state .big-icon {
+    font-size: 72px;
+    display: block;
+    margin-bottom: 12px;
+    opacity: 0.4;
+  }
+
+  /* ====== ПОДВАЛ ====== */
+  .footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 28px 20px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-style: italic;
+    border-top: 2px dashed var(--violet-light);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+  .footer .hearts {
+    display: block;
+    font-size: 20px;
+    letter-spacing: 8px;
+    margin-top: 10px;
+    opacity: 0.7;
+  }
+
+  /* ====== АДАПТИВ ====== */
+  @media (max-width: 600px) {
+    body { padding: 16px 12px 40px; }
+    .main-header h1 { font-size: 26px; }
+    .main-header .crown { font-size: 40px; }
+    .main-header .subtitle { font-size: 12px; letter-spacing: 2px; }
+    .main-header p { font-size: 15px; }
+    .category-title { font-size: 20px; }
+    .category-title .emoji { font-size: 28px; }
+    .games-grid { grid-template-columns: 1fr; gap: 14px; }
+    .game-emoji { font-size: 38px; }
+    .game-title { font-size: 16px; }
+    .game-card { padding: 18px 20px 18px; border-radius: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="main-header">
+    <span class="crown">👑</span>
+    <h1>Задания и домашние задания</h1>
+    <div class="subtitle">✦ 7 класс ✦ Anna ✦</div>
+    <p>Выбирай задание — и учись с удовольствием! Здесь собраны интерактивные тренажёры и тесты по алгебре и геометрии.</p>
+  </header>
+
+  <div id="gamesContainer"></div>
+
+  <div class="footer">
+    💜 Учись с радостью — и всё получится!
+    <span class="hearts">✨ 💫 🌸</span>
+  </div>
+
+</div>
+
+<script>
+/* ================================================================
+   📚 СПИСОК ЗАДАНИЙ
+   ================================================================
+
+   ✏️ КАК ДОБАВИТЬ НОВОЕ ЗАДАНИЕ (прямо на GitHub, в браузере):
+
+   1. Загрузите HTML-файл задания в репозиторий Anna7class
+      (например, uravneniya.html)
+
+   2. Откройте этот файл index.html на GitHub → карандаш ✏️
+      (Edit this file)
+
+   3. Найдите массив «games» ниже. Скопируйте шаблон из
+      комментария и вставьте его в список. Замените:
+
+      category:      'Алгебра' или 'Геометрия'
+      categoryEmoji: эмодзи категории (📐 🧮)
+      file:          ИМЯ ФАЙЛА задания — например, uravneniya.html
+      emoji:         эмодзи для карточки (📈 ✏️ 🎯 🌸 и т.д.)
+      title:         название задания
+      class:         для какого класса
+      desc:          описание одним предложением
+      tags:          теги с цветом (см. таблицу ниже)
+
+   4. Внизу нажмите зелёную кнопку «Commit changes»
+
+   5. Через 1–2 минуты новое задание появится на странице!
+
+   ────────────────────────────────────────────────────────────────
+
+   🎨 ДОСТУПНЫЕ ЦВЕТА ТЕГОВ:
+      'violet' — фиолетовый   'blue'   — синий
+      'lilac'  — сиреневый    'pink'   — розовый
+      'green'  — зелёный      'gold'   — золотой
+      'rose'   — насыщенно-розовый      'dark' — тёмный
+
+   ────────────────────────────────────────────────────────────────
+
+   💡 Категории создаются автоматически: если задание помечено
+      category: 'Алгебра' — оно попадёт в раздел «Алгебра»,
+      если category: 'Геометрия' — в раздел «Геометрия».
+   ================================================================ */
+
+const games = [
+
+  // ═══════════════════════════════════════════════════════════════
+  // 📐 ГЕОМЕТРИЯ
+  // ═══════════════════════════════════════════════════════════════
+  {
+    category: 'Геометрия',
+    categoryEmoji: '📐',
+    file: 'ugol.html',
+    emoji: '📏',
+    title: 'Луч и угол',
+    class: '7 класс',
+    desc: 'Тест по теме «Луч и угол»: обозначения, виды углов, градусная мера.',
+    tags: [
+      { text: 'углы', color: 'violet' },
+      { text: 'тест', color: 'blue' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // 🧮 АЛГЕБРА
+  // ═══════════════════════════════════════════════════════════════
+  {
+    category: 'Алгебра',
+    categoryEmoji: '🧮',
+    file: 'grafik.html',
+    emoji: '📈',
+    title: 'График линейной функции',
+    class: '7 класс',
+    desc: 'Построй прямую по двум точкам — и проверь себя. 10 заданий.',
+    tags: [
+      { text: 'графики', color: 'violet' },
+      { text: 'функции', color: 'lilac' }
+    ]
+  },
+  {
+    category: 'Алгебра',
+    categoryEmoji: '🧮',
+    file: 'kuski.html',
+    emoji: '🧩',
+    title: 'Кусочно-заданные функции',
+    class: '7 класс',
+    desc: 'Теория с чертежами и 7 практических заданий: модуль, температура, ломаные.',
+    tags: [
+      { text: 'функции', color: 'violet' },
+      { text: 'графики', color: 'blue' }
+    ]
+  },
+
+  /* ═══════════════════════════════════════════════════════════════
+     ➕ НОВЫЕ ЗАДАНИЯ ДОБАВЛЯЙТЕ НИЖЕ ⬇️
+
+     Просто скопируйте шаблон и замените данные:
+
+  {
+    category: 'Алгебра',
+    categoryEmoji: '🧮',
+    file: 'НАЗВАНИЕ-ФАЙЛА.html',
+    emoji: '🎮',
+    title: 'Название задания',
+    class: '7 класс',
+    desc: 'Короткое описание задания.',
+    tags: [
+      { text: 'тема', color: 'violet' }
+    ]
+  },
+
+  ═══════════════════════════════════════════════════════════════ */
+
+];
+
+/* ================================================================
+   ⚙️ ДАЛЬШЕ — АВТОМАТИКА. НЕ ТРОГАЙТЕ ЭТОТ БЛОК.
+   ================================================================ */
+
+// Группируем задания по категориям, сохраняя порядок первого появления
+const categories = [];
+const grouped = {};
+
+games.forEach(game => {
+  if (!grouped[game.category]) {
+    grouped[game.category] = {
+      emoji: game.categoryEmoji || '🎮',
+      games: []
+    };
+    categories.push(game.category);
+  }
+  grouped[game.category].games.push(game);
+});
+
+const container = document.getElementById('gamesContainer');
+let html = '';
+
+if (categories.length === 0) {
+  html = `<div class="empty-state">
+    <span class="big-icon">📭</span>
+    Пока нет ни одного задания. Добавьте его в массив <b>games</b>!
+  </div>`;
+} else {
+  categories.forEach(catName => {
+    const cat = grouped[catName];
+    html += `
+      <section class="category">
+        <h2 class="category-title">
+          <span class="emoji">${cat.emoji}</span>
+          <span class="name">${catName}</span>
+          <span class="count">${cat.games.length} ${pluralTasks(cat.games.length)}</span>
+        </h2>
+        <div class="games-grid">
+    `;
+
+    cat.games.forEach(g => {
+      const tagsHTML = (g.tags || []).map(t =>
+        `<span class="tag tag-${t.color || 'violet'}">${t.text}</span>`
+      ).join('');
+
+      html += `
+        <a href="${g.file}" class="game-card">
+          <div class="game-header">
+            <div class="game-emoji">${g.emoji}</div>
+            <div class="game-meta">
+              <div class="game-title">${g.title}</div>
+              <span class="game-class">${g.class}</span>
+            </div>
+          </div>
+          <div class="game-desc">${g.desc}</div>
+          <div class="game-tags">${tagsHTML}</div>
+        </a>
+      `;
+    });
+
+    html += `</div></section>`;
+  });
+}
+
+container.innerHTML = html;
+
+function pluralTasks(n) {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod100 >= 11 && mod100 <= 14) return 'заданий';
+  if (mod10 === 1) return 'задание';
+  if (mod10 >= 2 && mod10 <= 4) return 'задания';
+  return 'заданий';
+}
+</script>
+
+</body>
+</html>
