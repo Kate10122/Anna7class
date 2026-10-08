@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 Измерение отрезков — 7 класс</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-gradient: linear-gradient(145deg, #f5f2fc 0%, #eef2fb 40%, #f0eefa 100%);
+  --card: #ffffff;
+  --violet: #8a6ad8;
+  --violet-dark: #6a4ab8;
+  --violet-light: #b8a8e8;
+  --violet-pale: #f0ebfa;
+  --blue: #5a8ad8;
+  --blue-dark: #3a5aa8;
+  --ink: #2a1a4a;
+  --ink-soft: #5a4a7a;
+  --green: #5aab7a;
+  --green-light: #d8f0e0;
+  --red: #d86a8a;
+  --red-light: #f8dde5;
+  --shadow: 0 8px 28px rgba(106, 74, 184, 0.10);
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 24px 14px 60px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.app { max-width: 900px; margin: 0 auto; }
+
+/* ═══ ЗАГОЛОВОК ═══ */
+.main-header {
+  text-align: center;
+  margin-bottom: 26px;
+  padding: 26px 20px 20px;
+}
+.main-header .crown {
+  font-size: 44px;
+  display: block;
+  margin-bottom: 10px;
+  animation: crownGlow 3s ease-in-out infinite;
+}
+@keyframes crownGlow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(138, 106, 216, 0.6)); }
+  50% { filter: drop-shadow(0 0 25px rgba(138, 106, 216, 1)); }
+}
+.main-header h1 {
+  font-size: 34px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #8a6ad8, #5a8ad8, #c8a8e8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  line-height: 1.15;
+}
+.main-header .subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--violet-dark);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.main-header p {
+  font-size: 16px;
+  color: var(--ink-soft);
+  font-style: italic;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ═══ ТЕОРИЯ ═══ */
+.theory {
+  background: linear-gradient(160deg, #ffffff, #f8f5ff);
+  border: 2px solid rgba(138, 106, 216, 0.15);
+  border-radius: 22px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.theory::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #8a6ad8, #5a8ad8, #c8a8e8);
+}
+.theory h2 {
+  font-size: 20px;
+  color: var(--violet-dark);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.theory ul { list-style: none; padding-left: 6px; }
+.theory li {
+  padding: 6px 0 6px 24px;
+  position: relative;
+  font-size: 15.5px;
+  color: var(--ink);
+  line-height: 1.55;
+}
+.theory li::before {
+  content: "◆";
+  color: var(--violet);
+  position: absolute;
+  left: 4px; top: 6px;
+  font-size: 12px;
+}
+.theory .formula {
+  display: inline-block;
+  font-family: 'Cambria Math', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--violet-dark);
+  background: var(--violet-pale);
+  padding: 1px 10px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* ═══ КАРТОЧКА ЗАДАЧИ ═══ */
+.task {
+  background: var(--card);
+  border: 2px solid rgba(138, 106, 216, 0.15);
+  border-radius: 22px;
+  padding: 22px 24px 20px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow);
+  transition: all 0.4s ease;
+  position: relative;
+}
+.task.correct {
+  border-color: var(--green);
+  background: linear-gradient(180deg, #fff, #f0faf4);
+  box-shadow: 0 0 0 4px rgba(90, 171, 122, 0.12), var(--shadow);
+}
+.task.incorrect {
+  border-color: var(--red);
+  background: linear-gradient(180deg, #fff, #fcf0f5);
+  box-shadow: 0 0 0 4px rgba(216, 106, 138, 0.12), var(--shadow);
+}
+
+.task-head {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+.task-badge {
+  background: linear-gradient(135deg, var(--violet), var(--violet-dark));
+  color: #fff; font-size: 13px; font-weight: 800;
+  padding: 5px 16px; border-radius: 20px;
+  letter-spacing: 0.3px; flex-shrink: 0;
+}
+.task-name {
+  font-size: 17px; font-weight: 700;
+  color: var(--violet-dark); flex: 1;
+}
+.task-text {
+  font-size: 16px; line-height: 1.7; color: var(--ink);
+  margin-bottom: 16px; padding: 14px 18px;
+  background: linear-gradient(135deg, #faf8ff, #f0f5fc);
+  border-radius: 14px; border-left: 4px solid var(--violet);
+}
+.task-text b { color: var(--violet-dark); font-weight: 700; }
+.task-text .num {
+  font-family: 'Cambria Math', Georgia, serif;
+  font-style: italic; font-weight: 700;
+  color: var(--blue-dark);
+}
+
+/* ═══ ОБЛАСТЬ РИСОВАНИЯ ═══ */
+.draw-area {
+  background: #fdfeff;
+  border-radius: 16px;
+  border: 1px solid #e0daf5;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+.toolbar {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 10px; padding: 4px 2px;
+}
+.tool {
+  border: 2px solid rgba(138, 106, 216, 0.15);
+  background: #fff; color: var(--violet-dark);
+  padding: 7px 14px; font-size: 13px; font-weight: 700;
+  font-family: inherit; border-radius: 20px;
+  cursor: pointer; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.tool:hover {
+  background: var(--violet-pale);
+  border-color: var(--violet-light);
+  transform: translateY(-1px);
+}
+.tool.active {
+  background: linear-gradient(135deg, var(--violet), var(--blue));
+  color: #fff; border-color: var(--violet);
+  box-shadow: 0 4px 12px rgba(138, 106, 216, 0.3);
+}
+.tool.clear, .tool.undo {
+  color: var(--red);
+  border-color: rgba(216, 106, 138, 0.2);
+}
+.tool.clear:hover, .tool.undo:hover {
+  background: var(--red-light);
+  border-color: var(--red);
+}
+
+.canvas-container {
+  position: relative; width: 100%;
+  border-radius: 12px; overflow: hidden;
+  background: #fff; border: 1px solid #e8e4f5;
+}
+.canvas-container canvas {
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 600 / 220;
+  touch-action: none; cursor: crosshair;
+  user-select: none; -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.canvas-hint {
+  font-size: 12.5px; color: var(--ink-soft);
+  font-style: italic; margin-top: 8px;
+  padding: 0 4px; line-height: 1.5;
+}
+.canvas-hint b { color: var(--violet-dark); font-style: normal; }
+
+/* ═══ ОТВЕТ ═══ */
+.answer-row {
+  display: flex; align-items: center; gap: 12px;
+  flex-wrap: wrap; padding: 12px 16px;
+  background: linear-gradient(135deg, #f5f0ff, #eef2fb);
+  border-radius: 14px; margin-bottom: 14px;
+}
+.answer-row label {
+  font-weight: 700; color: var(--violet-dark); font-size: 15px;
+}
+.answer-row input[type="text"] {
+  flex: 1; min-width: 160px;
+  padding: 10px 16px;
+  border: 2px solid rgba(138, 106, 216, 0.25);
+  border-radius: 12px; font-size: 16px;
+  font-family: 'Cambria Math', Georgia, serif;
+  font-weight: 700; color: var(--violet-dark);
+  outline: none; transition: all 0.25s; background: #fff;
+}
+.answer-row input[type="text"]:focus {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 4px rgba(138, 106, 216, 0.15);
+}
+.answer-row input.correct {
+  border-color: var(--green); background: var(--green-light); color: #1a5a3a;
+}
+.answer-row input.incorrect {
+  border-color: var(--red); background: var(--red-light); color: #7a1a3a;
+}
+
+.check-btn {
+  background: linear-gradient(135deg, var(--violet), var(--blue));
+  color: #fff; border: none;
+  padding: 11px 24px; font-size: 14px; font-weight: 800;
+  font-family: inherit; border-radius: 40px;
+  cursor: pointer; transition: all 0.25s;
+  box-shadow: 0 6px 18px rgba(106, 74, 184, 0.3);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.check-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(106, 74, 184, 0.4);
+}
+
+/* ═══ ФИДБЕК ═══ */
+.feedback {
+  padding: 0 16px; border-radius: 12px;
+  font-size: 14.5px; font-weight: 600; line-height: 1.55;
+  max-height: 0; overflow: hidden;
+  transition: all 0.4s ease;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.feedback.show { max-height: 200px; padding: 12px 16px; }
+.feedback.ok {
+  background: var(--green-light); color: #1a5a3a;
+  border: 2px solid var(--green);
+}
+.feedback.fail {
+  background: var(--red-light); color: #7a1a3a;
+  border: 2px solid var(--red);
+}
+.feedback .icon { font-size: 20px; line-height: 1; flex-shrink: 0; }
+
+/* ═══ ИТОГ ═══ */
+.overall-result {
+  display: none;
+  background: linear-gradient(160deg, #ffffff, #f0ecfa);
+  border: 3px solid var(--violet);
+  border-radius: 24px;
+  padding: 30px 26px; margin-top: 26px;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(106, 74, 184, 0.2);
+}
+.overall-result.show { display: block; animation: popIn 0.5s ease; }
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.overall-result .big-icon { font-size: 64px; display: block; margin-bottom: 10px; }
+.overall-result h2 { font-size: 26px; color: var(--violet-dark); margin-bottom: 10px; }
+.overall-result .score-line {
+  font-size: 40px; font-weight: 900;
+  background: linear-gradient(135deg, var(--violet-dark), var(--blue-dark));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin: 12px 0;
+}
+.overall-result .message {
+  font-size: 16px; font-style: italic; color: var(--ink-soft);
+  padding: 14px 20px; background: rgba(255, 255, 255, 0.7);
+  border-radius: 14px; margin-top: 12px; line-height: 1.55;
+}
+
+.btn-all {
+  display: block; margin: 30px auto 0;
+  background: linear-gradient(135deg, #8a6ad8, #5a8ad8);
+  color: #fff; border: none;
+  padding: 18px 44px; font-size: 18px; font-weight: 800;
+  font-family: inherit; border-radius: 50px;
+  cursor: pointer; transition: all 0.25s;
+  box-shadow: 0 10px 30px rgba(106, 74, 184, 0.35);
+  letter-spacing: 0.3px;
+}
+.btn-all:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(106, 74, 184, 0.5);
+}
+
+/* ═══ АДАПТИВ ═══ */
+@media (max-width: 600px) {
+  body { padding: 14px 10px 40px; }
+  .main-header h1 { font-size: 24px; }
+  .main-header .crown { font-size: 36px; }
+  .main-header p { font-size: 14px; }
+  .task { padding: 16px 14px; }
+  .task-text { font-size: 15px; padding: 12px 14px; }
+  .theory { padding: 18px 18px; }
+  .theory li { font-size: 14.5px; }
+  .tool { padding: 6px 10px; font-size: 12px; }
+  .answer-row { padding: 10px 12px; gap: 8px; }
+  .answer-row input[type="text"] { min-width: 120px; padding: 9px 12px; }
+  .check-btn { padding: 10px 18px; font-size: 13px; }
+  .btn-all { padding: 15px 32px; font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="main-header">
+    <span class="crown">📐</span>
+    <h1>Измерение отрезков</h1>
+    <div class="subtitle">✦ Геометрия · 7 класс ✦</div>
+    <p>Реши задачи, построй чертежи к каждой из них — и проверь себя!</p>
+  </header>
+
+  <!-- ТЕОРИЯ -->
+  <section class="theory">
+    <h2>💡 Что важно помнить</h2>
+    <ul>
+      <li><b>Отрезок AB</b> — часть прямой, ограниченная двумя точками A и B.</li>
+      <li>Если точка M лежит <b>между</b> A и B, то <span class="formula">AM + MB = AB</span>.</li>
+      <li><b>Середина отрезка</b> — точка, делящая его пополам.</li>
+      <li>Если точка C лежит на <b>прямой AB</b> (но не на самом отрезке), то AC = AB + BC или AC = |AB − BC|.</li>
+      <li>Отношение <span class="formula">AK : BK = m : n</span> означает, что AK = m·x, BK = n·x, где x — одна часть.</li>
+    </ul>
+  </section>
+
+  <!-- ЗАДАЧА 1 -->
+  <div class="task" id="task-1">
+    <div class="task-head">
+      <span class="task-badge">Задача 1</span>
+      <span class="task-name">Точки внутри отрезка</span>
+    </div>
+    <div class="task-text">
+      На отрезке <span class="num">AB</span> выбраны точки <span class="num">M</span> и <span class="num">N</span>. Известно, что <span class="num">AB = 12 см</span>, <span class="num">AM = 8 см</span>, <span class="num">BN = 10 см</span>. Найдите длину отрезка <span class="num">MN</span>.
+    </div>
+    <div class="draw-area">
+      <div class="toolbar" data-task="1">
+        <button class="tool active" data-mode="segment">✏️ Отрезок</button>
+        <button class="tool" data-mode="point">📍 Точка</button>
+        <button class="tool" data-mode="label">🏷 Подпись</button>
+        <button class="tool" data-mode="pencil">🖊️ Карандаш</button>
+        <button class="tool undo">↶ Отменить</button>
+        <button class="tool clear">🗑 Очистить</button>
+      </div>
+      <div class="canvas-container">
+        <canvas class="canvas" width="600" height="220"></canvas>
+      </div>
+      <div class="canvas-hint">
+        💡 Клик — поставить точку. <b>Подписи можно перетаскивать пальцем</b>. <b>Карандаш</b> — рисуй от руки. <b>Отменить</b> — убирает последний штрих.
+      </div>
+    </div>
+    <div class="answer-row">
+      <label>MN =</label>
+      <input type="text" id="ans-1" placeholder="Ответ в см">
+      <button class="check-btn" data-task="1">✅ Проверить</button>
+    </div>
+    <div class="feedback" id="fb-1"></div>
+  </div>
+
+  <!-- ЗАДАЧА 2 -->
+  <div class="task" id="task-2">
+    <div class="task-head">
+      <span class="task-badge">Задача 2</span>
+      <span class="task-name">Деление отрезка в отношении</span>
+    </div>
+    <div class="task-text">
+      На отрезке <span class="num">AB</span> длиной <span class="num">36 см</span> выбрана точка <span class="num">K</span>. Найдите длины отрезков <span class="num">AK</span> и <span class="num">BK</span>, если <span class="num">AK : BK = 4 : 5</span>.
+    </div>
+    <div class="draw-area">
+      <div class="toolbar" data-task="2">
+        <button class="tool active" data-mode="segment">✏️ Отрезок</button>
+        <button class="tool" data-mode="point">📍 Точка</button>
+        <button class="tool" data-mode="label">🏷 Подпись</button>
+        <button class="tool" data-mode="pencil">🖊️ Карандаш</button>
+        <button class="tool undo">↶ Отменить</button>
+        <button class="tool clear">🗑 Очистить</button>
+      </div>
+      <div class="canvas-container">
+        <canvas class="canvas" width="600" height="220"></canvas>
+      </div>
+      <div class="canvas-hint">
+        💡 Карандашом можно отмечать части отрезка или делать пояснения к чертежу.
+      </div>
+    </div>
+    <div class="answer-row">
+      <label>AK = <input type="text" id="ans-2a" style="width:90px; flex:none; padding:9px 12px; border-radius:10px; border:2px solid rgba(138,106,216,.25); font-family:'Cambria Math',Georgia,serif; font-weight:700; font-size:15px; color:var(--violet-dark); text-align:center; outline:none;"> см, &nbsp; BK = <input type="text" id="ans-2b" style="width:90px; flex:none; padding:9px 12px; border-radius:10px; border:2px solid rgba(138,106,216,.25); font-family:'Cambria Math',Georgia,serif; font-weight:700; font-size:15px; color:var(--violet-dark); text-align:center; outline:none;"> см</label>
+      <button class="check-btn" data-task="2">✅ Проверить</button>
+    </div>
+    <div class="feedback" id="fb-2"></div>
+  </div>
+
+  <!-- ЗАДАЧА 3 -->
+  <div class="task" id="task-3">
+    <div class="task-head">
+      <span class="task-badge">Задача 3</span>
+      <span class="task-name">Середина отрезка</span>
+    </div>
+    <div class="task-text">
+      Дан отрезок <span class="num">AB = 16 см</span>. Точка <span class="num">M</span> — середина отрезка <span class="num">AB</span>, точка <span class="num">K</span> — середина отрезка <span class="num">MB</span>. Найдите длину отрезка <span class="num">AK</span>.
+    </div>
+    <div class="draw-area">
+      <div class="toolbar" data-task="3">
+        <button class="tool active" data-mode="segment">✏️ Отрезок</button>
+        <button class="tool" data-mode="point">📍 Точка</button>
+        <button class="tool" data-mode="label">🏷 Подпись</button>
+        <button class="tool" data-mode="pencil">🖊️ Карандаш</button>
+        <button class="tool undo">↶ Отменить</button>
+        <button class="tool clear">🗑 Очистить</button>
+      </div>
+      <div class="canvas-container">
+        <canvas class="canvas" width="600" height="220"></canvas>
+      </div>
+      <div class="canvas-hint">
+        💡 Отмечай середины карандашом, если удобно. Все штрихи можно отменить.
+      </div>
+    </div>
+    <div class="answer-row">
+      <label>AK =</label>
+      <input type="text" id="ans-3" placeholder="Ответ в см">
+      <button class="check-btn" data-task="3">✅ Проверить</button>
+    </div>
+    <div class="feedback" id="fb-3"></div>
+  </div>
+
+  <!-- ЗАДАЧА 4 -->
+  <div class="task" id="task-4">
+    <div class="task-head">
+      <span class="task-badge">Задача 4</span>
+      <span class="task-name">Точка на прямой</span>
+    </div>
+    <div class="task-text">
+      На прямой <span class="num">AB</span> выбрана точка <span class="num">C</span>. Известно, что <span class="num">AB = 9 см</span>, <span class="num">BC = 4 см</span>. Какую длину может иметь отрезок <span class="num">AC</span>? Укажите <b>все возможные значения</b>.
+    </div>
+    <div class="draw-area">
+      <div class="toolbar" data-task="4">
+        <button class="tool active" data-mode="segment">✏️ Отрезок</button>
+        <button class="tool" data-mode="point">📍 Точка</button>
+        <button class="tool" data-mode="label">🏷 Подпись</button>
+        <button class="tool" data-mode="pencil">🖊️ Карандаш</button>
+        <button class="tool undo">↶ Отменить</button>
+        <button class="tool clear">🗑 Очистить</button>
+      </div>
+      <div class="canvas-container">
+        <canvas class="canvas" width="600" height="220"></canvas>
+      </div>
+      <div class="canvas-hint">
+        💡 Нарисуй оба случая! Карандаш пригодится для дополнительных пометок.
+      </div>
+    </div>
+    <div class="answer-row">
+      <label>AC может быть равно:</label>
+      <input type="text" id="ans-4" placeholder="Например: 5 и 13">
+      <button class="check-btn" data-task="4">✅ Проверить</button>
+    </div>
+    <div class="feedback" id="fb-4"></div>
+  </div>
+
+  <!-- ЗАДАЧА 5 -->
+  <div class="task" id="task-5">
+    <div class="task-head">
+      <span class="task-badge">Задача 5</span>
+      <span class="task-name">Уравнение на части</span>
+    </div>
+    <div class="task-text">
+      На отрезке <span class="num">AB</span> длиной <span class="num">36 см</span> выбрана точка <span class="num">K</span>. Найдите длины отрезков <span class="num">AK</span> и <span class="num">BK</span>, если <span class="num">½·AK = 1·BK</span>.
+    </div>
+    <div class="draw-area">
+      <div class="toolbar" data-task="5">
+        <button class="tool active" data-mode="segment">✏️ Отрезок</button>
+        <button class="tool" data-mode="point">📍 Точка</button>
+        <button class="tool" data-mode="label">🏷 Подпись</button>
+        <button class="tool" data-mode="pencil">🖊️ Карандаш</button>
+        <button class="tool undo">↶ Отменить</button>
+        <button class="tool clear">🗑 Очистить</button>
+      </div>
+      <div class="canvas-container">
+        <canvas class="canvas" width="600" height="220"></canvas>
+      </div>
+      <div class="canvas-hint">
+        💡 Из условия ½·AK = BK следует, что AK в 2 раза больше BK. Рисуй карандашом части.
+      </div>
+    </div>
+    <div class="answer-row">
+      <label>AK = <input type="text" id="ans-5a" style="width:90px; flex:none; padding:9px 12px; border-radius:10px; border:2px solid rgba(138,106,216,.25); font-family:'Cambria Math',Georgia,serif; font-weight:700; font-size:15px; color:var(--violet-dark); text-align:center; outline:none;"> см, &nbsp; BK = <input type="text" id="ans-5b" style="width:90px; flex:none; padding:9px 12px; border-radius:10px; border:2px solid rgba(138,106,216,.25); font-family:'Cambria Math',Georgia,serif; font-weight:700; font-size:15px; color:var(--violet-dark); text-align:center; outline:none;"> см</label>
+      <button class="check-btn" data-task="5">✅ Проверить</button>
+    </div>
+    <div class="feedback" id="fb-5"></div>
+  </div>
+
+  <!-- КНОПКА ПРОВЕРИТЬ ВСЁ -->
+  <button class="btn-all" id="btnAll">🎯 Проверить все задания</button>
+
+  <!-- ИТОГ -->
+  <div class="overall-result" id="overallResult">
+    <span class="big-icon" id="overallIcon">🏆</span>
+    <h2 id="overallTitle">Результат</h2>
+    <div class="score-line" id="overallScore">0 / 5</div>
+    <div class="message" id="overallMessage"></div>
+  </div>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   КЛАСС РИСОВАНИЯ ЧЕРТЕЖА
+   ═══════════════════════════════════════════════════════════════ */
+const GRID = 20; // 1 клетка = 1 см
+const PENCIL_COLOR = '#2a4a7a'; // тёмно-синий для карандаша
+const PENCIL_WIDTH = 2.5;
+
+class SegmentCanvas {
+  constructor(canvasEl) {
+    this.canvas = canvasEl;
+    this.ctx = canvasEl.getContext('2d');
+    this.points = [];    // {x, y, label}
+    this.segments = [];  // [i, j]
+    this.labels = [];    // {x, y, text}
+    this.paths = [];     // свободные штрихи карандашом: [{x,y}, ...]
+    this.currentPath = null;
+
+    this.mode = 'segment';
+    this.nextLabel = 0;
+    this.autoLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    this.lastSegmentPointIdx = null;
+
+    // История для отмены
+    this.history = [];
+
+    // Состояние перетаскивания подписи
+    this.draggingLabelIdx = null;
+    this.dragOffset = { x: 0, y: 0 };
+
+    // Состояние рисования
+    this.isDrawing = false;
+
+    // Клик vs перетаскивание
+    this.pointerDownPos = null;
+    this.wasDrag = false;
+    this.lastTapTime = 0;
+    this.lastTapPos = { x: 0, y: 0 };
+
+    this.bindEvents();
+    this.draw();
+  }
+
+  bindEvents() {
+    this.canvas.addEventListener('pointerdown', e => this.onPointerDown(e));
+    this.canvas.addEventListener('pointermove', e => this.onPointerMove(e));
+    this.canvas.addEventListener('pointerup', e => this.onPointerUp(e));
+    this.canvas.addEventListener('pointercancel', e => this.onPointerUp(e));
+    this.canvas.addEventListener('contextmenu', e => {
+      e.preventDefault();
+      this.undo();
+    });
+  }
+
+  /* Непривязанная позиция (для перетаскивания подписей и карандаша) */
+  getRawPos(e) {
+    const rect = this.canvas.getBoundingClientRect();
+    const scaleX = this.canvas.width / rect.width;
+    const scaleY = this.canvas.height / rect.height;
+    return {
+      x: (e.clientX - rect.left) * scaleX,
+      y: (e.clientY - rect.top) * scaleY
+    };
+  }
+
+  /* Привязанная к сетке позиция (для точек) */
+  getSnapPos(e) {
+    const p = this.getRawPos(e);
+    return {
+      x: Math.round(p.x / GRID) * GRID,
+      y: Math.round(p.y / GRID) * GRID
+    };
+  }
+
+  /* Поиск подписи под пальцем */
+  findLabelAt(x, y) {
+    const ctx = this.ctx;
+    for (let i = this.labels.length - 1; i >= 0; i--) {
+      const l = this.labels[i];
+      ctx.font = 'bold 13px Georgia, serif';
+      const metrics = ctx.measureText(l.text);
+      const w = metrics.width + 14;
+      const h = 22;
+      if (x >= l.x - w / 2 && x <= l.x + w / 2 &&
+          y >= l.y - h / 2 && y <= l.y + h / 2) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  onPointerDown(e) {
+    const rawPos = this.getRawPos(e);
+    this.pointerDownPos = rawPos;
+    this.wasDrag = false;
+
+    // Режим КАРАНДАША — начинаем рисовать
+    if (this.mode === 'pencil') {
+      e.preventDefault();
+      this.isDrawing = true;
+      this.currentPath = [{ x: rawPos.x, y: rawPos.y }];
+      try { this.canvas.setPointerCapture(e.pointerId); } catch (err) {}
+      this.canvas.style.cursor = 'crosshair';
+      return;
+    }
+
+    // Режим подписей/точек — проверяем, попали ли по подписи
+    const labelIdx = this.findLabelAt(rawPos.x, rawPos.y);
+    if (labelIdx !== -1) {
+      e.preventDefault();
+      this.draggingLabelIdx = labelIdx;
+      const l = this.labels[labelIdx];
+      this.dragOffset = { x: rawPos.x - l.x, y: rawPos.y - l.y };
+      this.canvas.style.cursor = 'grabbing';
+      try { this.canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+  }
+
+  onPointerMove(e) {
+    const rawPos = this.getRawPos(e);
+
+    // Рисование карандашом
+    if (this.isDrawing) {
+      e.preventDefault();
+      const path = this.currentPath;
+      const last = path[path.length - 1];
+      // Добавляем точку, только если палец сдвинулся хотя бы немного
+      if (Math.hypot(rawPos.x - last.x, rawPos.y - last.y) > 1.5) {
+        path.push({ x: rawPos.x, y: rawPos.y });
+        this.draw();
+      }
+      return;
+    }
+
+    // Перетаскивание подписи
+    if (this.draggingLabelIdx !== null) {
+      e.preventDefault();
+      this.wasDrag = true;
+      const l = this.labels[this.draggingLabelIdx];
+      const newX = rawPos.x - this.dragOffset.x;
+      const newY = rawPos.y - this.dragOffset.y;
+
+      this.ctx.font = 'bold 13px Georgia, serif';
+      const w = this.ctx.measureText(l.text).width + 14;
+      const h = 22;
+
+      l.x = Math.max(w / 2, Math.min(this.canvas.width - w / 2, newX));
+      l.y = Math.max(h / 2, Math.min(this.canvas.height - h / 2, newY));
+      this.draw();
+    } else if (this.mode !== 'pencil') {
+      // Меняем курсор при наведении на подпись
+      const idx = this.findLabelAt(rawPos.x, rawPos.y);
+      this.canvas.style.cursor = idx !== -1 ? 'grab' : 'crosshair';
+    }
+  }
+
+  onPointerUp(e) {
+    // Завершение рисования
+    if (this.isDrawing) {
+      this.isDrawing = false;
+      if (this.currentPath && this.currentPath.length > 1) {
+        this.paths.push(this.currentPath);
+        this.history.push({ type: 'path', index: this.paths.length - 1 });
+      }
+      this.currentPath = null;
+      try { this.canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+      this.draw();
+      this.pointerDownPos = null;
+      return;
+    }
+
+    // Завершение перетаскивания подписи
+    if (this.draggingLabelIdx !== null) {
+      this.draggingLabelIdx = null;
+      this.canvas.style.cursor = 'crosshair';
+      try { this.canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+      this.pointerDownPos = null;
+      return;
+    }
+
+    // Обработка клика (если не было drag)
+    if (!this.wasDrag && this.pointerDownPos) {
+      const rawPos = this.getRawPos(e);
+      const dx = rawPos.x - this.pointerDownPos.x;
+      const dy = rawPos.y - this.pointerDownPos.y;
+
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+        const now = Date.now();
+        const timeSinceLast = now - this.lastTapTime;
+        const distFromLast = Math.hypot(
+          rawPos.x - this.lastTapPos.x,
+          rawPos.y - this.lastTapPos.y
+        );
+
+        if (timeSinceLast < 350 && distFromLast < 15) {
+          this.tryRename(rawPos);
+          this.lastTapTime = 0;
+        } else {
+          this.handleClick(rawPos);
+          this.lastTapTime = now;
+          this.lastTapPos = rawPos;
+        }
+      }
+    }
+
+    this.pointerDownPos = null;
+  }
+
+  tryRename(pos) {
+    const snapped = {
+      x: Math.round(pos.x / GRID) * GRID,
+      y: Math.round(pos.y / GRID) * GRID
+    };
+    const p = this.points.find(p =>
+      Math.abs(p.x - snapped.x) < GRID / 2 &&
+      Math.abs(p.y - snapped.y) < GRID / 2
+    );
+    if (!p) return;
+    const newLabel = prompt('Новое имя точки:', p.label);
+    if (newLabel && newLabel.trim()) {
+      p.label = newLabel.trim().slice(0, 4);
+      this.draw();
+    }
+  }
+
+  handleClick(pos) {
+    const x = Math.round(pos.x / GRID) * GRID;
+    const y = Math.round(pos.y / GRID) * GRID;
+
+    if (this.mode === 'label') {
+      const text = prompt('Введите текст подписи:', '');
+      if (text && text.trim()) {
+        this.labels.push({ x, y, text: text.trim() });
+        this.history.push({ type: 'label', index: this.labels.length - 1 });
+        this.draw();
+      }
+      return;
+    }
+
+    let idx = this.points.findIndex(p =>
+      Math.abs(p.x - x) < GRID / 2 && Math.abs(p.y - y) < GRID / 2
+    );
+
+    if (idx === -1) {
+      const label = this.autoLabels[this.nextLabel % 26];
+      this.points.push({ x, y, label });
+      idx = this.points.length - 1;
+      this.nextLabel++;
+      this.history.push({ type: 'point', index: idx });
+    }
+
+    if (this.mode === 'segment') {
+      if (this.lastSegmentPointIdx !== null && this.lastSegmentPointIdx !== idx) {
+        if (!this.segmentExists(this.lastSegmentPointIdx, idx)) {
+          this.segments.push([this.lastSegmentPointIdx, idx]);
+          this.history.push({ type: 'segment', index: this.segments.length - 1 });
+        }
+      }
+      this.lastSegmentPointIdx = idx;
+    }
+
+    this.draw();
+  }
+
+  segmentExists(a, b) {
+    return this.segments.some(([i, j]) =>
+      (i === a && j === b) || (i === b && j === a)
+    );
+  }
+
+  /* Отмена последнего действия */
+  undo() {
+    if (this.history.length === 0) return;
+    const last = this.history.pop();
+
+    if (last.type === 'path') {
+      // Удаляем штрих карандаша
+      this.paths.splice(last.index, 1);
+    } else if (last.type === 'label') {
+      this.labels.splice(last.index, 1);
+    } else if (last.type === 'segment') {
+      this.segments.splice(last.index, 1);
+    } else if (last.type === 'point') {
+      const pIdx = last.index;
+      this.segments = this.segments.filter(([i, j]) => i !== pIdx && j !== pIdx);
+      this.points.splice(pIdx, 1);
+      if (this.nextLabel > 0) this.nextLabel--;
+      if (this.lastSegmentPointIdx !== null && this.lastSegmentPointIdx >= pIdx) {
+        this.lastSegmentPointIdx = null;
+      }
+    }
+
+    this.draw();
+  }
+
+  setMode(mode) {
+    this.mode = mode;
+    if (mode !== 'segment') {
+      this.lastSegmentPointIdx = null;
+    }
+  }
+
+  clear() {
+    this.points = [];
+    this.segments = [];
+    this.labels = [];
+    this.paths = [];
+    this.currentPath = null;
+    this.nextLabel = 0;
+    this.lastSegmentPointIdx = null;
+    this.history = [];
+    this.draw();
+  }
+
+  draw() {
+    const ctx = this.ctx;
+    const W = this.canvas.width;
+    const H = this.canvas.height;
+
+    // Фон
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, W, H);
+
+    // Мелкая сетка
+    ctx.strokeStyle = '#ececf5';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = 0; x <= W; x += GRID) {
+      ctx.moveTo(x + 0.5, 0);
+      ctx.lineTo(x + 0.5, H);
+    }
+    for (let y = 0; y <= H; y += GRID) {
+      ctx.moveTo(0, y + 0.5);
+      ctx.lineTo(W, y + 0.5);
+    }
+    ctx.stroke();
+
+    // Крупная сетка
+    ctx.strokeStyle = '#d8d8e8';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    for (let x = 0; x <= W; x += GRID * 5) {
+      ctx.moveTo(x + 0.5, 0);
+      ctx.lineTo(x + 0.5, H);
+    }
+    for (let y = 0; y <= H; y += GRID * 5) {
+      ctx.moveTo(0, y + 0.5);
+      ctx.lineTo(W, y + 0.5);
+    }
+    ctx.stroke();
+
+    // ═══ СВОБОДНЫЕ ШТРИХИ КАРАНДАШОМ ═══
+    ctx.strokeStyle = PENCIL_COLOR;
+    ctx.lineWidth = PENCIL_WIDTH;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // Уже завершённые штрихи
+    this.paths.forEach(path => {
+      if (path.length < 2) {
+        // Одиночная точка — рисуем маленький кружок
+        ctx.beginPath();
+        ctx.arc(path[0].x, path[0].y, PENCIL_WIDTH / 2, 0, Math.PI * 2);
+        ctx.fillStyle = PENCIL_COLOR;
+        ctx.fill();
+        return;
+      }
+      ctx.beginPath();
+      ctx.moveTo(path[0].x, path[0].y);
+      for (let i = 1; i < path.length; i++) {
+        ctx.lineTo(path[i].x, path[i].y);
+      }
+      ctx.stroke();
+    });
+
+    // Текущий штрих (пока палец на экране)
+    if (this.currentPath && this.currentPath.length > 0) {
+      if (this.currentPath.length === 1) {
+        ctx.beginPath();
+        ctx.arc(this.currentPath[0].x, this.currentPath[0].y, PENCIL_WIDTH / 2, 0, Math.PI * 2);
+        ctx.fillStyle = PENCIL_COLOR;
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(this.currentPath[0].x, this.currentPath[0].y);
+        for (let i = 1; i < this.currentPath.length; i++) {
+          ctx.lineTo(this.currentPath[i].x, this.currentPath[i].y);
+        }
+        ctx.stroke();
+      }
+    }
+
+    // ═══ ОТРЕЗКИ ═══
+    ctx.strokeStyle = '#5a4ab8';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    this.segments.forEach(([i, j]) => {
+      const p1 = this.points[i];
+      const p2 = this.points[j];
+      if (!p1 || !p2) return;
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.stroke();
+    });
+
+    // ═══ ТОЧКИ ═══
+    this.points.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.strokeStyle = '#5a4ab8';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#2a1a4a';
+      ctx.font = 'bold 15px Georgia, serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(p.label, p.x, p.y - 10);
+    });
+
+    // ═══ ПОДПИСИ ═══
+    this.labels.forEach((l, idx) => {
+      ctx.font = 'bold 13px Georgia, serif';
+      const metrics = ctx.measureText(l.text);
+      const w = metrics.width + 14;
+      const h = 22;
+
+      const isDragging = (idx === this.draggingLabelIdx);
+
+      // Тень
+      ctx.fillStyle = 'rgba(106, 74, 184, 0.12)';
+      ctx.fillRect(l.x - w / 2 + 2, l.y - h / 2 + 2, w, h);
+
+      // Фон
+      ctx.fillStyle = isDragging ? '#fff0f7' : 'rgba(255, 240, 250, 0.95)';
+      ctx.fillRect(l.x - w / 2, l.y - h / 2, w, h);
+
+      // Рамка
+      ctx.strokeStyle = isDragging ? '#8a6ad8' : '#d86a8a';
+      ctx.lineWidth = isDragging ? 2 : 1.2;
+      ctx.strokeRect(l.x - w / 2, l.y - h / 2, w, h);
+
+      // Текст
+      ctx.fillStyle = isDragging ? '#6a4ab8' : '#a03a6a';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(l.text, l.x, l.y + 1);
+    });
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ИНИЦИАЛИЗАЦИЯ КАНВАСОВ
+   ═══════════════════════════════════════════════════════════════ */
+const canvases = {};
+
+document.querySelectorAll('.task').forEach(taskEl => {
+  const taskId = taskEl.id.replace('task-', '');
+  const canvasEl = taskEl.querySelector('canvas');
+  const toolbar = taskEl.querySelector('.toolbar');
+
+  const sc = new SegmentCanvas(canvasEl);
+  canvases[taskId] = sc;
+
+  toolbar.querySelectorAll('.tool').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('undo')) {
+        sc.undo();
+        return;
+      }
+      if (btn.classList.contains('clear')) {
+        sc.clear();
+        return;
+      }
+      const mode = btn.dataset.mode;
+      if (!mode) return;
+      toolbar.querySelectorAll('.tool').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      sc.setMode(mode);
+    });
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   ПРОВЕРКА ОТВЕТОВ
+   ═══════════════════════════════════════════════════════════════ */
+function parseNumbers(str) {
+  if (!str) return [];
+  const normalized = String(str).toLowerCase()
+    .replace(/и/g, ' ')
+    .replace(/,/g, ' ')
+    .replace(/;/g, ' ')
+    .replace(/=/g, ' ');
+  const matches = normalized.match(/-?\d+(?:[.,]\d+)?/g);
+  return matches ? matches.map(s => parseFloat(s.replace(',', '.'))) : [];
+}
+
+const TASKS = {
+  1: {
+    inputs: ['ans-1'],
+    check: (nums) => nums.length === 1 && Math.abs(nums[0] - 6) < 0.01,
+    hint: 'Подсказка: MB = AB − AM = 12 − 8 = 4 см; AN = AB − BN = 12 − 10 = 2 см. Точки лежат в порядке A, N, M, B. Тогда MN = AM − AN = 8 − 2 = 6 см.'
+  },
+  2: {
+    inputs: ['ans-2a', 'ans-2b'],
+    check: (nums) => nums.length === 2 && Math.abs(nums[0] - 16) < 0.01 && Math.abs(nums[1] - 20) < 0.01,
+    hint: 'Подсказка: пусть AK = 4x, BK = 5x. Тогда 4x + 5x = 36, 9x = 36, x = 4. AK = 16 см, BK = 20 см.'
+  },
+  3: {
+    inputs: ['ans-3'],
+    check: (nums) => nums.length === 1 && Math.abs(nums[0] - 12) < 0.01,
+    hint: 'Подсказка: AM = MB = 8 см. K — середина MB, значит MK = KB = 4 см. AK = AM + MK = 8 + 4 = 12 см.'
+  },
+  4: {
+    inputs: ['ans-4'],
+    check: (nums) => {
+      if (nums.length !== 2) return false;
+      const sorted = [...nums].sort((a, b) => a - b);
+      return Math.abs(sorted[0] - 5) < 0.01 && Math.abs(sorted[1] - 13) < 0.01;
+    },
+    hint: 'Подсказка: точка C может лежать между A и B (тогда AC = AB − BC = 5 см) или за точкой B (тогда AC = AB + BC = 13 см). Ответ: 5 см и 13 см.'
+  },
+  5: {
+    inputs: ['ans-5a', 'ans-5b'],
+    check: (nums) => nums.length === 2 && Math.abs(nums[0] - 24) < 0.01 && Math.abs(nums[1] - 12) < 0.01,
+    hint: 'Подсказка: ½·AK = BK, значит AK = 2·BK. Пусть BK = x, AK = 2x. Тогда 2x + x = 36, 3x = 36, x = 12. AK = 24 см, BK = 12 см.'
+  }
+};
+
+const taskStatus = { 1: null, 2: null, 3: null, 4: null, 5: null };
+
+function checkTask(taskId) {
+  const task = TASKS[taskId];
+  const taskEl = document.getElementById('task-' + taskId);
+  const fb = document.getElementById('fb-' + taskId);
+
+  const nums = [];
+  let hasEmpty = false;
+  task.inputs.forEach(inputId => {
+    const inp = document.getElementById(inputId);
+    const parsed = parseNumbers(inp.value);
+    if (parsed.length === 0) hasEmpty = true;
+    nums.push(...parsed);
+  });
+
+  if (hasEmpty) {
+    fb.className = 'feedback show fail';
+    fb.innerHTML = '<span class="icon">📝</span><span><b>Введите ответ.</b> Заполните все поля.</span>';
+    taskEl.classList.remove('correct', 'incorrect');
+    taskStatus[taskId] = null;
+    return;
+  }
+
+  const ok = task.check(nums);
+
+  task.inputs.forEach(inputId => {
+    const inp = document.getElementById(inputId);
+    inp.classList.remove('correct', 'incorrect');
+    inp.classList.add(ok ? 'correct' : 'incorrect');
+  });
+
+  fb.className = 'feedback show ' + (ok ? 'ok' : 'fail');
+  if (ok) {
+    fb.innerHTML = '<span class="icon">✅</span><span><b>Верно!</b> Отличная работа.</span>';
+    taskEl.classList.remove('incorrect');
+    taskEl.classList.add('correct');
+  } else {
+    fb.innerHTML = '<span class="icon">❌</span><span><b>Есть ошибка.</b> ' + task.hint + '</span>';
+    taskEl.classList.remove('correct');
+    taskEl.classList.add('incorrect');
+  }
+
+  taskStatus[taskId] = ok;
+}
+
+document.querySelectorAll('.check-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    checkTask(btn.dataset.task);
+  });
+});
+
+Object.entries(TASKS).forEach(([taskId, task]) => {
+  task.inputs.forEach(inputId => {
+    const inp = document.getElementById(inputId);
+    if (inp) {
+      inp.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          checkTask(taskId);
+        }
+      });
+    }
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   ПРОВЕРИТЬ ВСЁ
+   ═══════════════════════════════════════════════════════════════ */
+document.getElementById('btnAll').addEventListener('click', () => {
+  [1, 2, 3, 4, 5].forEach(id => checkTask(id));
+
+  let correct = 0;
+  let allDone = true;
+  [1, 2, 3, 4, 5].forEach(id => {
+    if (taskStatus[id] === true) correct++;
+    if (taskStatus[id] === null) allDone = false;
+  });
+
+  const result = document.getElementById('overallResult');
+  const icon = document.getElementById('overallIcon');
+  const title = document.getElementById('overallTitle');
+  const score = document.getElementById('overallScore');
+  const msg = document.getElementById('overallMessage');
+
+  score.textContent = `${correct} / 5`;
+  const percent = correct / 5 * 100;
+  let ic, t, m;
+
+  if (correct === 5) {
+    ic = '🏆'; t = 'Превосходно!';
+    m = 'Все пять задач решены верно. Ты отлично разобрался в измерении отрезков!';
+  } else if (percent >= 80) {
+    ic = '🌟'; t = 'Отличный результат!';
+    m = 'Почти все задачи решены. Посмотри задачи с ошибками — и станет идеально.';
+  } else if (percent >= 60) {
+    ic = '👍'; t = 'Хороший результат';
+    m = 'Больше половины задач решены верно. Повтори теорию и попробуй снова.';
+  } else if (percent >= 40) {
+    ic = '📖'; t = 'Есть над чем поработать';
+    m = 'Вспомни основные свойства отрезков и правило «AM + MB = AB». У тебя получится!';
+  } else {
+    ic = '💪'; t = 'Не сдавайся!';
+    m = 'Перечитай теорию в начале страницы — особенно формулы — и попробуй ещё раз.';
+  }
+
+  icon.textContent = ic;
+  title.textContent = t;
+  msg.textContent = m;
+
+  result.classList.add('show');
+  result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+</script>
+
+</body>
+</html>
